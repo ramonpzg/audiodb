@@ -1,9 +1,9 @@
 import torch
-from train import get_data
 import pandas as pd
 from faker import Faker
 from random import randint
 from datasets import load_from_disk
+from datasets import concatenate_datasets
 
 
 def save_payloads(data, cols, file_path_name):
@@ -21,7 +21,8 @@ def add_rename_cols(data, paths, mapping):
 if __name__ == "__main__":
     
     data = load_from_disk("data/processed/")
-
+    data = concatenate_datasets([data['train'], data['test']])
+    
     fake = Faker()
     mapping = {0: 'Bachata', 1: 'Cumbia', 2: 'Merengue', 3: 'Salsa', 4: 'Vallenato'}
     
@@ -29,8 +30,8 @@ if __name__ == "__main__":
     
     data = add_rename_cols(data, paths, mapping)
     
-    payloads = save_payloads(
+    save_payloads(
         data, 
         ["idx", 'genre', "artist", 'audio_path'],
-        "data/payload/payload.json"
+        "data/payloads/payload.json"
     )

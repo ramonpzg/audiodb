@@ -31,7 +31,7 @@ def add_data_to_vdb(name, vectors, payload):
 if __name__ == "__main__":
     
     vectors_path = 'data/hidden_state/vectors_full.npy'
-    payload_path = "data/payload/payload.json"
+    payload_path = "data/payloads/payload.json"
     vdb_name = "music_collection"
     
     

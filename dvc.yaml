@@ -23,21 +23,31 @@ stages:
     - data/processed
     - data/external/paths.parquet
     outs:
-    - data/payload/payload.json
-  get_image:
-    cmd: docker pull qdrant/qdrant
-    outs:
-    - qdrant/qdrant
-  start_image:
-    cmd: docker run -dp 6333:6333 -v $(pwd)/qdrant_storage:/qdrant/storage qdrant/qdrant
-    deps:
-    - qdrant/qdrant
+    - data/payloads/payload.json
+  # get_image:
+  #   cmd: docker pull qdrant/qdrant && echo "finished pulling image" >> msg.txt
+  #   deps:
+  #   - data/payloads/payload.json
+  #   outs:
+  #   - msg.txt
+  # start_image:
+  #   cmd: docker run -dp 6333:6333 -v $(pwd)/qdrant_storage:/qdrant/storage qdrant/qdrant
+  #   deps:
+  #   - msg.txt
+  #   outs:
+  #   - qdrant_storage
   load_vdb:
-    cmd: python src/load_qdrant.py
+    cmd: python src/load_qdrant.py && echo "finished adding data to qdrant" >> msg.txt
     deps:
+    - qdrant_storage
     - data/hidden_state/vectors_full.npy
-    - data/payload/payload.json
+    - data/payloads/payload.json
+    outs:
+    - msg.txt
   start_ui:
     cmd: streamlit run src/app.py
     deps:
+    - msg.txt
+    - data/payloads/payload.json
     - models/my_model
+    - qdrant_storage
