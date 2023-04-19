@@ -1,0 +1,43 @@
+stages:
+  train_cls:
+    cmd: python src/train.py
+    outs:
+    - data/processed
+    - models/my_model
+  hidden_state:
+    cmd: python src/get_hidden_state.py
+    deps:
+    - data/processed
+    - models/my_model
+    outs:
+    - data/hidden_state/vectors_full.npy
+  get_paths:
+    cmd: python src/utils.py
+    deps:
+    - data/processed
+    outs:
+    - data/external/paths.parquet
+  get_payloads:
+    cmd: python src/build_payload.py
+    deps:
+    - data/processed
+    - data/external/paths.parquet
+    outs:
+    - data/payload/payload.json
+  get_image:
+    cmd: docker pull qdrant/qdrant
+    outs:
+    - qdrant/qdrant
+  start_image:
+    cmd: docker run -dp 6333:6333 -v $(pwd)/qdrant_storage:/qdrant/storage qdrant/qdrant
+    deps:
+    - qdrant/qdrant
+  load_vdb:
+    cmd: python src/load_qdrant.py
+    deps:
+    - data/hidden_state/vectors_full.npy
+    - data/payload/payload.json
+  start_ui:
+    cmd: streamlit run src/app.py
+    deps:
+    - models/my_model

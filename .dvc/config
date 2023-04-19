@@ -1,0 +1,4 @@
+[core]
+    autostage = false
+['remote "local_repo"']
+    url = /home/ramonperez/Tresors/datascience/challenges/qdrant_chl/data

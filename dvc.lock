@@ -1,0 +1,43 @@
+schema: '2.0'
+stages:
+  train_cls:
+    cmd: python src/train.py
+    outs:
+    - path: data/processed
+      md5: 1136589db620c563d547eb398ae3e2e8.dir
+      size: 4064009754
+      nfiles: 14
+    - path: models/my_model
+      md5: 82b438b595d81c09deb34a00f81d33a4.dir
+      size: 378356896
+      nfiles: 4
+  hidden_state:
+    cmd: python src/get_hidden_state.py
+    deps:
+    - path: data/processed
+      md5: 7a67c2241caa9102514e2c443226c544.dir
+      size: 8132151698
+      nfiles: 15
+    - path: models/my_model
+      md5: 82b438b595d81c09deb34a00f81d33a4.dir
+      size: 378356896
+      nfiles: 4
+    outs:
+    - path: data/hidden_state/vectors_full.npy
+      md5: a4683c0d22a882c1c454ec7d9aac7ed8
+      size: 4608128
+  get_paths:
+    cmd: python src/utils.py
+    deps:
+    - path: data/processed
+      md5: 1136589db620c563d547eb398ae3e2e8.dir
+      size: 4064009754
+      nfiles: 14
+    outs:
+    - path: data/external/paths.parquet
+      md5: 2bdbab50ab61144c985a1f0a3d57720b
+      size: 16191
+  get_image:
+    cmd: docker pull qdrant/qdrant
+  start_image:
+    cmd: docker run -dp 6333:6333 -v $(pwd)/qdrant_storage:/qdrant/storage qdrant/qdrant
