@@ -3,9 +3,8 @@ from train import get_data
 import pandas as pd
 from faker import Faker
 from random import randint
+from datasets import load_from_disk
 
-def get_payload(data, cols):
-    pass
 
 def save_payloads(data, cols, file_path_name):
     data[cols].to_json(file_path_name)
@@ -13,7 +12,7 @@ def save_payloads(data, cols, file_path_name):
 def add_rename_cols(data, paths, mapping):
     data = data.rename_column("label", "genre")
     data = data.to_pandas()
-    data['audio_path'] = paths
+    data['audio_path'] = paths['audio'].tolist()
     data["idx"] = [randint(10_000, 99_999) for _ in range(len(data))]
     data["artist"] = [fake.name() for _ in range(len(data))]
     data['genre'] = data['genre'].map(mapping)
@@ -21,10 +20,12 @@ def add_rename_cols(data, paths, mapping):
 
 if __name__ == "__main__":
     
-    data = get_data(path_kind="audiofolder", data_dir="data/processed/", split_kind="train")
-    
+    data = load_from_disk("data/processed/")
+
     fake = Faker()
     mapping = {0: 'Bachata', 1: 'Cumbia', 2: 'Merengue', 3: 'Salsa', 4: 'Vallenato'}
+    
+    paths = pd.read_parquet("data/external/paths.parquet")
     
     data = add_rename_cols(data, paths, mapping)
     

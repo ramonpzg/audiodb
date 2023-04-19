@@ -45,7 +45,7 @@ audio = pipe(
 
 st.audio(audio, sample_rate=16000)
 
-classifier = pipeline("audio-classification", model="notebooks/sec_mod")
+classifier = pipeline("audio-classification", model="models/my_model")
 
 genre = classifier(audio)
 
@@ -59,8 +59,8 @@ m4.metric(label=genre[3]['label'], value=f"{genre[3]['score']*100:.2f}%")
 m5.metric(label=genre[4]['label'], value=f"{genre[4]['score']*100:.2f}%")
 
 
-model = AutoModel.from_pretrained('notebooks/sec_mod').to(device)
-feature_extractor = AutoFeatureExtractor.from_pretrained("notebooks/sec_mod")
+model = AutoModel.from_pretrained('models/my_model').to(device)
+feature_extractor = AutoFeatureExtractor.from_pretrained("models/my_model")
 inputs = feature_extractor(
     audio, sampling_rate=feature_extractor.sampling_rate, 
     return_tensors="pt", max_length=16000, truncation=True

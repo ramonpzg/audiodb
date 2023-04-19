@@ -1,7 +1,7 @@
 import torch
-from train import get_data
+from train import define_feat_extractor
 from transformers import AutoModel
-from datasets import concatenate_datasets
+from datasets import concatenate_datasets, load_from_disk
 import numpy as np
 
 
@@ -33,9 +33,10 @@ if __name__ == "__main__":
     
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    data = get_data(path_kind="audiofolder", data_dir="data/processed/", split_kind=None)
+    data = load_from_disk("data/processed/")
     data = prep_format(data)
     
+    feature_extractor = define_feat_extractor("facebook/wav2vec2-base")
     model = load_pretrained("models/my_model", device)
     hidden_state = data.map(extract_hidden_states, batched=True, batch_size=50)
     
