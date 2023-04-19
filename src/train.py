@@ -26,7 +26,7 @@ def get_labels(data, col):
 
 
 def split_data(data, ratio=0.2):
-    return data.train_test_split(test_size=ratio)
+    return data.train_test_split(test_size=ratio, shuffle=False)
 
 
 def define_feat_extractor(model):
@@ -88,6 +88,7 @@ if __name__ == "__main__":
     data = split_data(data)
     feature_extractor = define_feat_extractor("facebook/wav2vec2-base")
     encoded_data = get_features(data, features_func)
+    save_data(encoded_data, "data/processed/")
     
     accuracy = evaluate.load("accuracy")
     
@@ -103,6 +104,4 @@ if __name__ == "__main__":
     )
     
     trainer = get_trainer(model, encoded_data, targs)
-    save_model(model, "models/my_model")
-    
-    save_data(encoded_data, "data/processed/")
+    save_model(trainer, "models/my_model")
