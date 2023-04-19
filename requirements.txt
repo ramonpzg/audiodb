@@ -11,3 +11,5 @@ jupyterlab
 torch
 pyarrow
 torchaudio
+evaluate
+qdrant-client
