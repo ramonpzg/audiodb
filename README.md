@@ -14,6 +14,20 @@
 
 ## 1. Overview
 
+```mermaid
+flowchart LR
+    J[Pull Qdrant Image] -->|Start| K(Qdrant)
+    A[Download Data] -->|Split Data| B(Train Model)
+    B --> C(Get Hidden State)
+    C -->|Add HS to Qdrant| K
+    K --> D(Start UI)
+    B --> D
+    A --> F(Get Audio Paths)
+    F --> D
+    G[Download AudioLDM] --> D
+```
+
+
 The goal of this project is build a music recommender system using tunes created 
 from a diffusion model and then find the ten most similar recommendations 
 from real songs of different artists. The key tool enabling this recommender system is 
