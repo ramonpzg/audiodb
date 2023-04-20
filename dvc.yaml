@@ -24,18 +24,6 @@ stages:
     - data/external/paths.parquet
     outs:
     - data/payloads/payload.json
-  # get_image:
-  #   cmd: docker pull qdrant/qdrant && echo "finished pulling image" >> msg.txt
-  #   deps:
-  #   - data/payloads/payload.json
-  #   outs:
-  #   - msg.txt
-  # start_image:
-  #   cmd: docker run -dp 6333:6333 -v $(pwd)/qdrant_storage:/qdrant/storage qdrant/qdrant
-  #   deps:
-  #   - msg.txt
-  #   outs:
-  #   - qdrant_storage
   load_vdb:
     cmd: python src/load_qdrant.py && echo "finished adding data to qdrant" >> msg.txt
     deps:

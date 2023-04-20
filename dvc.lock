@@ -4,40 +4,96 @@ stages:
     cmd: python src/train.py
     outs:
     - path: data/processed
-      md5: 1136589db620c563d547eb398ae3e2e8.dir
+      md5: 55c1fbc4a057df9da2de0aa3fceeecb0.dir
       size: 4064009754
       nfiles: 14
     - path: models/my_model
-      md5: 82b438b595d81c09deb34a00f81d33a4.dir
-      size: 378356896
+      md5: 3fd3165f263467b9f4ee01a65ff5f45c.dir
+      size: 378359904
       nfiles: 4
   hidden_state:
     cmd: python src/get_hidden_state.py
     deps:
     - path: data/processed
-      md5: 7a67c2241caa9102514e2c443226c544.dir
+      md5: 9d1c04dae27d5c6db2fc6d32c11c8779.dir
       size: 8132151698
       nfiles: 15
     - path: models/my_model
-      md5: 82b438b595d81c09deb34a00f81d33a4.dir
-      size: 378356896
+      md5: 3fd3165f263467b9f4ee01a65ff5f45c.dir
+      size: 378359904
       nfiles: 4
     outs:
     - path: data/hidden_state/vectors_full.npy
-      md5: a4683c0d22a882c1c454ec7d9aac7ed8
+      md5: be59083a280db83e105da5d56526f0ce
       size: 4608128
   get_paths:
     cmd: python src/utils.py
     deps:
     - path: data/processed
-      md5: 1136589db620c563d547eb398ae3e2e8.dir
-      size: 4064009754
-      nfiles: 14
+      md5: 9d1c04dae27d5c6db2fc6d32c11c8779.dir
+      size: 8132151698
+      nfiles: 15
     outs:
     - path: data/external/paths.parquet
       md5: 2bdbab50ab61144c985a1f0a3d57720b
       size: 16191
   get_image:
-    cmd: docker pull qdrant/qdrant
+    cmd: docker pull qdrant/qdrant && echo "finished pulling image" >> msg.txt
+    deps:
+    - path: data/payloads/payload.json
+      md5: 37d9c3ee9752d18d2101f00ba0d907d5
+      size: 246574
+    outs:
+    - path: msg.txt
+      md5: f45fa3c98eaced11b639c5ed80689642
+      size: 23
   start_image:
     cmd: docker run -dp 6333:6333 -v $(pwd)/qdrant_storage:/qdrant/storage qdrant/qdrant
+  get_payloads:
+    cmd: python src/build_payload.py
+    deps:
+    - path: data/external/paths.parquet
+      md5: 2bdbab50ab61144c985a1f0a3d57720b
+      size: 16191
+    - path: data/processed
+      md5: 9d1c04dae27d5c6db2fc6d32c11c8779.dir
+      size: 8132151698
+      nfiles: 15
+    outs:
+    - path: data/payloads/payload.json
+      md5: a2ca0d70c9ebfb68a92e42a41e3a8163
+      size: 246438
+  load_vdb:
+    cmd: python src/load_qdrant.py && echo "finished adding data to qdrant" >> msg.txt
+    deps:
+    - path: data/hidden_state/vectors_full.npy
+      md5: be59083a280db83e105da5d56526f0ce
+      size: 4608128
+    - path: data/payloads/payload.json
+      md5: a2ca0d70c9ebfb68a92e42a41e3a8163
+      size: 246438
+    - path: qdrant_storage
+      md5: 90e367891e5d7c373ba64febbf2a4303.dir
+      size: 139294666
+      nfiles: 465
+    outs:
+    - path: msg.txt
+      md5: 1397f687f4381bbd016b9c8073846444
+      size: 31
+  start_ui:
+    cmd: streamlit run src/app.py
+    deps:
+    - path: data/payloads/payload.json
+      md5: a2ca0d70c9ebfb68a92e42a41e3a8163
+      size: 246438
+    - path: models/my_model
+      md5: 3fd3165f263467b9f4ee01a65ff5f45c.dir
+      size: 378359904
+      nfiles: 4
+    - path: msg.txt
+      md5: 1397f687f4381bbd016b9c8073846444
+      size: 31
+    - path: qdrant_storage
+      md5: 45d047b619c64d09ff2b0dad55570724.dir
+      size: 143984194
+      nfiles: 469
