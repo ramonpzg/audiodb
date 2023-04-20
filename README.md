@@ -1,5 +1,7 @@
 # audiodb
 
+![](images/app_screenshot.png)
+
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ramonpzg/audiodb/HEAD)
 
 ## Table of Contents
@@ -13,15 +15,38 @@
 ## 1. Overview
 
 The goal of this project is build a music recommender system using tunes created 
-from a diffusion model while contrasting these same tunes to recommendations 
-from real songs from different artists. The key tool enabling this recommender system is 
+from a diffusion model and then find the ten most similar recommendations 
+from real songs of different artists. The key tool enabling this recommender system is 
 [Qdrant](https://qdrant.tech/), "a vector similarity search engine that provides a 
 production-ready service with a convenient API to store, search, and manage points
 - vectors with an additional payload."
 
-The task of the transformer is to classify the genre of 
+In order to get the hidder layer, or what is often called the embedding, we will train
+a transformer on how to classify different music genres. Once we have a model, we will extract
+the hidden layer, add it to Qdrant, define our similarity metric, and begin creating 
+our own tunes.
 
-The diffusion model
+There are several ways to go about creating a diffusion model that can end up being 
+read as an audio file, and the one we will use here is is a Text-to-Audio model called, 
+[AudioLDM](https://huggingface.co/cvssp/audioldm). This model (as stated on HugginFace) 
+"is a latent text-to-audio diffusion model capable of generating realistic audio 
+samples given any text input. It is available in the 🧨 Diffusers library from v0.15.0 onwards."
+
+To create our classifier, we will use Facebook's famous 
+[Wav2Vec2-Base](https://huggingface.co/facebook/wav2vec2-base) model and fine-tune it 
+on a set of songs of about 30-seconds each. We will be using the transformers library 
+to fine-tune our model and, while the data is coming from a particular kaggle account, 
+you can swap it for another dataset a follow along as well.
+
+We will be using streamlit for our user interface and dvc to create a straighforward
+pipeline for our steps. It is important to note that, when running this tutorial on a 
+local machine, the training of the model, and the time it takes the diffuser to create 
+a tune, can vary quite significantly.
+
+Lastly, the full end-to-end tutorial can be found on Notebook `05_pipeline.ipynb`, and please note,
+this is still a work in progress. 
+
+This tutorial was created on a personal laptop with 16 cores, 32GB of RAM, and an Nvidia RTX 2060.
 
 Once you have the environment set up and the unzipped dataset directory, `Audio`, 
 inside a `data` directory, you will be able reproduced with the following commands.
