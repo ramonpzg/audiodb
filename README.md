@@ -21,14 +21,19 @@ flowchart LR
     J[Pull Qdrant Image] -->|Start| K(Qdrant)
     H --> K
     A[Download Data] -->|Split Data| B(Train Model)
+    A --> L(Index)
+    A --> M(Genre)
+    A --> N(Artist)
+    L --> H(Payload)
+    M --> H
+    N --> H
+    A -->|Get| F(Audio Paths)
     B --> C(Get Hidden State)
     C -->|Add HS to Qdrant| K
     K --> D(Streamlit App)
     B --> D
-    A -->|Get| F(Audio Paths)
     F --> D
     G[Download AudioLDM] --> D
-    A --> H(Payloads)
 ```
 
 
