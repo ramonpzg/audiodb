@@ -18,8 +18,8 @@ The goal of this project is build a music recommender system using tunes created
 from a diffusion model and then find the ten most similar recommendations 
 from real songs of different artists. The key tool enabling this recommender system is 
 [Qdrant](https://qdrant.tech/), "a vector similarity search engine that provides a 
-production-ready service with a convenient API to store, search, and manage points
-- vectors with an additional payload."
+production-ready service with a convenient API to store, search, and manage points - vectors 
+with an additional payload."
 
 In order to get the hidder layer, or what is often called the embedding, we will train
 a transformer on how to classify different music genres. Once we have a model, we will extract
