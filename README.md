@@ -128,6 +128,8 @@ to stress test it, or anonymize data taken from a production service, Faker is f
 - [`Streamlit`](https://docs.streamlit.io/) - "is an open-source Python library that makes it easy to create 
 and share beautiful, custom web apps for machine learning and data science. In just a few minutes you can 
 build and deploy powerful data apps."
+- [`dvc pipelines`](https://dvc.org/doc/user-guide/pipelines) - "DVC Pipelines help you define your workflow stages in a 
+standard YAML format (.dvc and dvc.yaml files), making your pipelines more manageable and consistent to reproduce."
 
 
 ## 4. Setup
