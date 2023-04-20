@@ -39,7 +39,7 @@ from real songs of different artists. The key tool enabling this recommender sys
 production-ready service with a convenient API to store, search, and manage points - vectors 
 with an additional payload."
 
-In order to get the hidder layer, or what is often called the embedding, we will train
+In order to get the hidder layer, or what is often confused with the embedding, we will train
 a transformer on how to classify different music genres. Once we have a model, we will extract
 the hidden layer, add it to Qdrant, define our similarity metric, and begin creating 
 our own tunes.
@@ -229,3 +229,6 @@ A new window should pop up in no time. Otherwise, you can go to http://localhost
 - [ ] Add explainability step
 - [ ] Add DB for queries used and outputs
 - [ ] Add human-in-the-loop feedback mechanism for data flywheel
+- [ ] Add testing suite
+- [ ] Add CI/CD
+- [ ] Add Experiment Tracking
