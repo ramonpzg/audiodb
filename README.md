@@ -49,16 +49,22 @@ this is still a work in progress.
 This tutorial was created on a personal laptop with 16 cores, 32GB of RAM, and an Nvidia RTX 2060.
 
 Once you have the environment set up and the unzipped dataset directory, `Audio`, 
-inside a `data` directory, you will be able reproduced with the following commands.
+inside the `data` directory, you will be able to reproduce the tutorial with the 
+following commands.
 
 ```sh
 ## 1
-mkdir models data data/hidden_state data/processed data/payloads data/external
+mkdir models data/hidden_state data/processed data/payloads data/external
 
 ## 2
 `docker pull qdrant/qdrant`
 
 ## 3
+docker run -p 6333:6333 \
+    -v $(pwd)/qdrant_storage:/qdrant/storage \
+    qdrant/qdrant
+
+## 4
 `dvc repro`
 ```
 
