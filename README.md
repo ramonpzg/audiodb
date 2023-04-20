@@ -16,17 +16,17 @@
 
 ```mermaid
 flowchart LR
-    J[Pull Qdrant Image] -->|Start| K(Qdrant)
+    J[Pull Qdrant Image 🐳] -->|Start| K(Qdrant 🦀)
     H --> K
-    A[Download Data] -->|Split Data| B(Train Model)
-    B --> C(Get Hidden State)
+    A[Download Data 🤗] -->|Split Data| B(Train Model 🤗)
+    B --> C(Get Hidden State 🤗)
     C -->|Add HS to Qdrant| K
-    K --> D(Start UI)
+    K --> D(Streamlit App 📺)
     B --> D
-    A --> F(Get Audio Paths)
+    A -->|Get| F(Audio Paths 🛣️)
     F --> D
-    G[Download AudioLDM] --> D
-    A --> H(Payloads)
+    G[Download AudioLDM 🤗] --> D
+    A --> H(Payloads 📜)
 ```
 
 
