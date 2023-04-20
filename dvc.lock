@@ -15,7 +15,7 @@ stages:
     cmd: python src/get_hidden_state.py
     deps:
     - path: data/processed
-      md5: 9d1c04dae27d5c6db2fc6d32c11c8779.dir
+      md5: cf23014a1525031d9ef424849270c7f0.dir
       size: 8132151698
       nfiles: 15
     - path: models/my_model
@@ -30,9 +30,9 @@ stages:
     cmd: python src/utils.py
     deps:
     - path: data/processed
-      md5: 9d1c04dae27d5c6db2fc6d32c11c8779.dir
-      size: 8132151698
-      nfiles: 15
+      md5: 55c1fbc4a057df9da2de0aa3fceeecb0.dir
+      size: 4064009754
+      nfiles: 14
     outs:
     - path: data/external/paths.parquet
       md5: 2bdbab50ab61144c985a1f0a3d57720b
@@ -56,13 +56,13 @@ stages:
       md5: 2bdbab50ab61144c985a1f0a3d57720b
       size: 16191
     - path: data/processed
-      md5: 9d1c04dae27d5c6db2fc6d32c11c8779.dir
-      size: 8132151698
-      nfiles: 15
+      md5: 55c1fbc4a057df9da2de0aa3fceeecb0.dir
+      size: 4064009754
+      nfiles: 14
     outs:
     - path: data/payloads/payload.json
-      md5: a2ca0d70c9ebfb68a92e42a41e3a8163
-      size: 246438
+      md5: 37d9c3ee9752d18d2101f00ba0d907d5
+      size: 246574
   load_vdb:
     cmd: python src/load_qdrant.py && echo "finished adding data to qdrant" >> msg.txt
     deps:
@@ -70,11 +70,11 @@ stages:
       md5: be59083a280db83e105da5d56526f0ce
       size: 4608128
     - path: data/payloads/payload.json
-      md5: a2ca0d70c9ebfb68a92e42a41e3a8163
-      size: 246438
+      md5: 37d9c3ee9752d18d2101f00ba0d907d5
+      size: 246574
     - path: qdrant_storage
-      md5: 90e367891e5d7c373ba64febbf2a4303.dir
-      size: 139294666
+      md5: a80b1520e84873d5cffe0aefd79ce1e2.dir
+      size: 139294866
       nfiles: 465
     outs:
     - path: msg.txt
@@ -84,8 +84,8 @@ stages:
     cmd: streamlit run src/app.py
     deps:
     - path: data/payloads/payload.json
-      md5: a2ca0d70c9ebfb68a92e42a41e3a8163
-      size: 246438
+      md5: 37d9c3ee9752d18d2101f00ba0d907d5
+      size: 246574
     - path: models/my_model
       md5: 3fd3165f263467b9f4ee01a65ff5f45c.dir
       size: 378359904
@@ -94,6 +94,6 @@ stages:
       md5: 1397f687f4381bbd016b9c8073846444
       size: 31
     - path: qdrant_storage
-      md5: 45d047b619c64d09ff2b0dad55570724.dir
-      size: 143984194
+      md5: 2aa4b45402e5a2973aabc9af56ea5863.dir
+      size: 144009853
       nfiles: 469

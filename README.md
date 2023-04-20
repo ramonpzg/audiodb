@@ -2,6 +2,8 @@
 
 ![](images/app_screenshot.png)
 
+😎 Full Blog Post ✨ and Tutorial 📜 comming soon.
+
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ramonpzg/audiodb/HEAD)
 
 ## Table of Contents
