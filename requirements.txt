@@ -9,4 +9,4 @@ evaluate
 qdrant-client
 audiocraft
 tensorflow
-panns_inference
+panns-inference

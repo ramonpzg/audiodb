@@ -12,7 +12,7 @@ st.markdown("""
 The purpose of this app is to help creative people explore the possibilities of Generative AI in the music
 domain, while comparing their creations to music made by people with all sorts of instruments.  
 
-There are several moving parts to this app and the most important ones are `transformers`, `diffusers`, and 
+There are several moving parts to this app and the most important ones are `transformers`, `audiocraft`, and 
 Qdrant for our vector database.
 """)
 
