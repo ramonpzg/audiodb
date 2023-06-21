@@ -1,11 +1,9 @@
 transformers
-datasets
 numpy
 ffmpeg
 streamlit
 torch
 torchaudio
-evaluate
 qdrant-client
 audiocraft
 tensorflow

@@ -20,11 +20,11 @@ client     = QdrantClient(
     "https://394294d5-30bb-4958-ad1a-15a3561edce5.us-east-1-0.aws.cloud.qdrant.io:6333", 
     api_key=os.environ['QDRANT_API_KEY'],
 )
-classifier = pipeline("audio-classification", model="models/mod_checkpoints/checkpoint-90")#.to(device)
+classifier = pipeline("audio-classification", model="ramonpzg/wav2musicgenre")#.to(device)
 model      = MusicGen.get_pretrained('small')
 
 # param1, param2 = st.columns(2)
-val1 = st.slider("How many seconds?", 5.0, 120.0, value=5.0, step=0.5)
+val1 = st.slider("How many seconds?", 5.0, 30.0, value=5.0, step=0.5)
 # val2 = param2.slider(
 #     "How many inference steps?", 5, 100, value=5, 
 #     help="The higher the number, the better the quality of the sound but the longer it takes for your music to be generated."
@@ -66,6 +66,11 @@ if st.button("Generate Some Music!"):
 
     at = AudioTagging(checkpoint_path=None)
     clipwise_output, embedding = at.inference(output[None, :])
+
+    # features = classifier.feature_extractor(output)
+
+    # with torch.no_grad():
+    #     vectr = classifier.model(**features, output_hidden_states=True).hidden_states[-1].mean(dim=1)[0]
 
     vectr = embedding[0]
 
